@@ -20,7 +20,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="ClickHouse 可视化构建">
 <meta property="og:url" content="http://example.com/2024/07/20/005/index.html">
-<meta property="og:site_name" content="warmdust">
+<meta property="og:site_name" content="暖尘">
 <meta property="og:description" content="ClickHouse 可视化构建近期公司将存储组件从 Elasticsearch 迁移至 ClickHouse，并且线上已经稳定运行一段时间了。鉴于当前运行稳定的状况，可以考虑逐步下线 Elasticsearch 集群以节省资源。然而，ClickHouse 目前缺乏像 Kibana 那样强大的可视化组件，这使得我们无法直接通过网页来观察和分析数据。因此，在完全下线 Elasticsearch 集群">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/005/001.png">
@@ -32,8 +32,10 @@
 <meta name="twitter:image" content="http://example.com/img/005/001.png">
   
   
+    <meta name="referrer" content="no-referrer-when-downgrade">
   
-  <title>ClickHouse 可视化构建 - warmdust</title>
+  
+  <title>ClickHouse 可视化构建 - 暖尘</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -239,6 +241,14 @@
     
 
     
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
     
   </div>
 
@@ -528,6 +538,30 @@
     </div>
   
   
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
   
   
 </div>
@@ -673,6 +707,8 @@
   <script>Fluid.plugins.imageCaption();</script>
 
   <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
