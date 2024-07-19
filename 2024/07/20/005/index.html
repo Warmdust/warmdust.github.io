@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/005/001.png">
 <meta property="article:published_time" content="2024-07-20T10:00:00.000Z">
-<meta property="article:modified_time" content="2024-07-19T07:54:48.211Z">
+<meta property="article:modified_time" content="2024-07-19T08:00:25.004Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="ckibana">
 <meta name="twitter:card" content="summary_large_image">
@@ -281,7 +281,7 @@
 </blockquote>
 <p>ClickVisual 是一个轻量级的开源可视化平台，专注于为 ClickHouse 提供日志查询、分析和报警功能。作为目前市面上唯一一款支持 ClickHouse 的类 Kibana 业务日志查询平台，ClickVisual 提供了一种直观的方式来可视化 ClickHouse 中的数据。然而，需要注意的是，ClickVisual 的功能相对基础，主要提供直方图等简单的数据展示形式，并不支持创建复杂的仪表盘。<br>CKibana 是一个旨在原生 Kibana 上使用 Elasticsearch 语法查询 ClickHouse 的服务。它本质上是基于 Kibana，因此无法完全摆脱对 Elasticsearch 的依赖（需要将 Kibana 的元数据存储在 Elasticsearch 中），但它为用户提供了一个在熟悉的 Kibana 界面中查询 ClickHouse 数据的解决方案。<br>考虑到上述信息，我更倾向于选择 CKibana 作为可视化工具。CKibana 的优势在于它允许用户直接在熟悉的 Kibana 界面中使用 Elasticsearch 语法查询 ClickHouse，从而实现了从 Elasticsearch到 ClickHouse 的平滑切换。对于已经熟悉并喜欢 Kibana 的用户来说，这种方案不仅减少了学习新工具的成本，还保持了他们熟悉的工作流程，使得整体切换过程更加顺畅和高效。</p>
 <h1 id="方案介绍"><a href="#方案介绍" class="headerlink" title="方案介绍"></a>方案介绍</h1><p>CKibana 通过在原生 Kibana 与 Elasticsearch 之间增加一层代理（Proxy），实现了 Elasticsearch 查询语法到 ClickHouse 的转换，如图: </p>
-<center><img src="/img/005/002.png" srcset="/img/loading.gif" lazyload width="30%" height="auto"></center>
+<center><img src="/img/005/002.webp" srcset="/img/loading.gif" lazyload width="100%" height="auto"></center>
 
 <h1 id="搭建测试环境"><a href="#搭建测试环境" class="headerlink" title="搭建测试环境"></a>搭建测试环境</h1><h2 id="组件介绍"><a href="#组件介绍" class="headerlink" title="组件介绍"></a>组件介绍</h2><blockquote>
 <ul>
@@ -311,7 +311,7 @@
 <h4 id="更新白名单索引"><a href="#更新白名单索引" class="headerlink" title="更新白名单索引"></a>更新白名单索引</h4><p>只有在白名单中的索引（即 ClickHouse 中的 table）才能在 Kibana 中查看数据, 调用接口后会覆盖原有配置 (建议保存一份线上数据)。如果想要查看名为 “demo” 和 “demo1” 两个表格的数据，则需要在调用的接口中，通过名为 “list” 的参数来指定这两个表格，并用逗号将它们分隔开。例如，参数的值应该是 “demo,demo1”。</p>
 <figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c">curl -v -X POST &#x27;localhost:<span class="hljs-number">8080</span>/config/updateWhiteIndexList?list=demo,demo1&#x27;<br></code></pre></td></tr></table></figure>
 <h4 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h4><p>上面两个配置正确配置后，就可以在 kibana 中查看 ClickHouse 的数据了！！！</p>
-<center><img src="/img/005/003.png" srcset="/img/loading.gif" lazyload width="30%" height="auto"></center>
+<center><img src="/img/005/003.png" srcset="/img/loading.gif" lazyload width="100%" height="auto"></center>
 
 <ul>
 <li>ndex pattern 跟 ClickHouse 表名是精确匹配，不能使用通配符 * </li>
@@ -321,7 +321,7 @@
 </ul>
 </li>
 </ul>
-<center><img src="/img/005/004.png" srcset="/img/loading.gif" lazyload width="30%" height="auto"></center>
+<center><img src="/img/005/004.png" srcset="/img/loading.gif" lazyload width="100%" height="auto"></center>
 
 <h3 id="CKibana-其他配置"><a href="#CKibana-其他配置" class="headerlink" title="CKibana 其他配置"></a>CKibana 其他配置</h3><h4 id="更新黑名单索引"><a href="#更新黑名单索引" class="headerlink" title="更新黑名单索引"></a>更新黑名单索引</h4><p>黑名单列表，配置的索引不会走 ClickHouse 查询，而是直接查询 Elasticsearch 。</p>
 <figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c">curl-v -X POST &#x27;localhost:<span class="hljs-number">8080</span>/config/updateBlackIndexList?list=demo&#x27;<br></code></pre></td></tr></table></figure>
@@ -332,7 +332,7 @@
 <h4 id="更新-enableMonitoring"><a href="#更新-enableMonitoring" class="headerlink" title="更新 enableMonitoring"></a>更新 enableMonitoring</h4><p>可以监控每个查询的详情，语法以及耗时索引为 proxy-monitor-*，cost 为查询耗时，key 为查询条件。这个配置刚刚上线的时候可以开启，用来观察那些查询耗时较长，不建议长时间开启</p>
 <figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c">curl -v -X POST &#x27;localhost:<span class="hljs-number">8080</span>/config/updateEnableMonitoring?enableMonitoring=true&#x27;<br></code></pre></td></tr></table></figure>
 <p>当然还可以基于 kibana 的图表功能，做更直观的分析，如下图所示：</p>
-<center><img src="/img/005/005.png" srcset="/img/loading.gif" lazyload width="30%" height="auto"></center>
+<center><img src="/img/005/005.png" srcset="/img/loading.gif" lazyload width="100%" height="auto"></center>
 
 <h4 id="其他配置"><a href="#其他配置" class="headerlink" title="其他配置"></a>其他配置</h4><ul>
 <li>更新ES配置<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c">curl -v -X POST &#x27;localhost:<span class="hljs-number">8080</span>/config/updateEs?host=esHost&amp;headers=key:value&#x27;<br></code></pre></td></tr></table></figure></li>
@@ -345,7 +345,7 @@
 <li>更新采样阈值，当命中结果集超过阈值时，会触发采样<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c">curl -v -X POST &#x27;localhost:<span class="hljs-number">8080</span>/config/updateSampleCountMaxThreshold?sampleCountMaxThreshold=<span class="hljs-number">150000</span>0&#x27;<br></code></pre></td></tr></table></figure>
 对应的 ClickHouse 的表需要按照 ClickHouse 的采样表创建 <a target="_blank" rel="noopener" href="https://clickhouse.com/docs/zh/sql-reference/statements/select/sample">采样子句</a><br>采样规则：<a target="_blank" rel="noopener" href="https://github.com/TongchengOpenSource/ckibana/blob/main/src/main/java/com/ly/ckibana/strategy/aggs/Aggregation.java#L178">ckibana 源码</a></li>
 </ul>
-<center><img src="/img/005/006.png" srcset="/img/loading.gif" lazyload width="30%" height="auto"></center>
+<center><img src="/img/005/006.png" srcset="/img/loading.gif" lazyload width="100%" height="auto"></center>
 
 <p>当设定的阈值低于查询结果总数量的 1% 时，Kibana 将自动调整显示的数据量，确保至少展示查询结果总数 1% 的数据。然而，如果配置的阈值超过了查询结果总数的 1%，那么 Kibana 将不再进行自动调整，而是直接按照配置的阈值来展示相应数量的数据。</p>
 <h4 id="时间-round-缓存"><a href="#时间-round-缓存" class="headerlink" title="时间 round + 缓存"></a>时间 round + 缓存</h4><p>当短时间内出现大量相似的查询时，为了减轻 ClickHouse 的负载并提高查询效率，可以考虑采用缓存机制。特别是当查询的条件在一段时间内可以视为相似时，通过缓存先前的查询结果（存在 Elasticsearch 中）可以显著提高性能。、<br>Q: 那么相似查询怎么可以用一份缓存呢？<br>A: 通过使用一个 round 功能，将查询的时间戳 round 到特定的时间间隔（如每20秒），使得相似的查询条件能够映射到相同的缓存键。这样，当新的查询到达时，系统首先检查缓存中是否存在与当前查询条件匹配的缓存项，如果存在则直接返回缓存结果，否则执行实际的数据库查询并将结果存入缓存以供后续使用。<br>假如 round 的值为 20s 则 key 映射示例如下：</p>
